@@ -5,15 +5,13 @@ import (
 	"slices"
 )
 
-// Unicode code point "None"
-const UNone rune = '\000'
-
-// Verifies if given rune is UNone
-func IsUNone(r rune) bool { return r == UNone }
+// Unicode code point NULL
+const UNull rune = '\u0000'
 
 // Thamizh vowel vocalization-duration enum
 type VocalDuration uint8
 
+// Thamizh vowel vocalization-duration enums
 const (
 	// குறில் எழுத்து; Short vocalization-duration vowel
 	Short VocalDuration = iota
@@ -38,7 +36,7 @@ func (v UVowel) Rep() string { return string(v.uForm) }
 
 // Thamizh attached-vowel representative string; or empty string if none
 func (v UVowel) AttachedFormRep() string {
-	if v.uAttachedForm == UNone {
+	if v.uAttachedForm == UNull {
 		return ""
 	} else {
 		return string(v.uAttachedForm)
@@ -50,7 +48,7 @@ func (v UVowel) VocalDuration() VocalDuration { return v.vocalDuration }
 
 // (Internal protected) Ordered Thamizh Unicode vowel list
 var internalVees [12]UVowel = [...]UVowel{
-	{'அ', UNone, Short},
+	{'அ', UNull, Short},
 	{'ஆ', 'ா', Long},
 	{'இ', 'ி', Short},
 	{'ஈ', 'ீ', Long},
