@@ -5,12 +5,13 @@ import (
 	"slices"
 )
 
-// Unicode code point U+0BCD
-const UAttachedDot rune = '்'
+// Unicode code point U+0BCD (pulli sign; புள்ளி)
+const UAttachedDot rune = '\u0BCD'
 
 // Thamizh consonant vocalization-strength enum
 type VocalStrength uint8
 
+// Thamizh consonant vocalization-strength enums
 const (
 	// வல்லின எழுத்து; Strong vocalization-strength consonant
 	Strong VocalStrength = iota
