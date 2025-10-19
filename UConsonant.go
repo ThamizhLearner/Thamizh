@@ -32,11 +32,11 @@ type UConsonant struct {
 	vocalStrength VocalStrength
 }
 
-// Thamizh consonant representative string
+// Thamizh consonant representative string (dot-consonant form)
 func (c UConsonant) Rep() string { return string([]rune{c.uBaseForm, UAttachedDot}) }
 
-// Thamizh base consonant representative string
-func (c UConsonant) BaseFormRep() string { return string(c.uBaseForm) }
+// Thamizh base consonant representative 'rune' (dot-less consonant form)
+func (c UConsonant) BaseFormRep() rune { return c.uBaseForm }
 
 // Thamizh consonant vocalization-strength enum
 func (c UConsonant) VocalStrength() VocalStrength { return c.vocalStrength }

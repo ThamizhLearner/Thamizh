@@ -26,16 +26,16 @@ func TestAttachedUVowel(t *testing.T) {
 		'ெ', 'ே', 'ை', 'ொ', 'ோ', 'ௌ',
 	}
 	for i, uvowel := range script.IndexedUVowels() {
-		if i == 0 { // First attached-vowel form does not exist
-			got, want := uvowel.AttachedFormRep(), ""
+		if i == 0 { // Special case: First attached-vowel form does not exist
+			got, want := uvowel.AttachedFormRep(), script.UNull
 			if got != want {
-				t.Errorf("Attached UVowel order mismatch; idx %v, got '%s', want '%s'", i, got, want)
+				t.Errorf("Attached UVowel order mismatch; idx %v, got '%c', want '%c'", i, got, want)
 			}
 			continue
 		}
-		got, want := uvowel.AttachedFormRep(), string(ucodes[i])
+		got, want := uvowel.AttachedFormRep(), ucodes[i]
 		if got != want {
-			t.Errorf("Attached UVowel order mismatch; idx %v, got '%s', want '%s'", i, got, want)
+			t.Errorf("Attached UVowel order mismatch; idx %v, got '%c', want '%c'", i, got, want)
 		}
 	}
 }

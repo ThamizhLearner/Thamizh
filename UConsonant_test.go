@@ -16,9 +16,9 @@ func TestUConsonant(t *testing.T) {
 		'ல', 'வ', 'ழ', 'ள', 'ற', 'ன',
 	}
 	for i, uconsonant := range script.IndexedUConsonants() {
-		got, want := uconsonant.BaseFormRep(), string(ucodes[i])
+		got, want := uconsonant.BaseFormRep(), ucodes[i]
 		if got != want {
-			t.Errorf("UConsonant order mismatch; got '%s', want '%s'", got, want)
+			t.Errorf("UConsonant order mismatch; got '%c', want '%c'", got, want)
 		}
 	}
 }
@@ -47,9 +47,9 @@ func TestStrongUConsonant(t *testing.T) {
 		if c.VocalStrength() != script.Strong {
 			continue
 		}
-		got, want := c.BaseFormRep(), string(ucodes[itemIdx])
+		got, want := c.BaseFormRep(), ucodes[itemIdx]
 		if got != want {
-			t.Errorf("Strong UConsonant order mismatch; got '%s', want '%s'", got, want)
+			t.Errorf("Strong UConsonant order mismatch; got '%c', want '%c'", got, want)
 		}
 		itemIdx++
 	}
@@ -64,9 +64,9 @@ func TestMildUConsonant(t *testing.T) {
 		if c.VocalStrength() != script.Mild {
 			continue
 		}
-		got, want := c.BaseFormRep(), string(ucodes[itemIdx])
+		got, want := c.BaseFormRep(), ucodes[itemIdx]
 		if got != want {
-			t.Errorf("Mild UConsonant order mismatch; got '%s', want '%s'", got, want)
+			t.Errorf("Mild UConsonant order mismatch; got '%c', want '%c'", got, want)
 		}
 		itemIdx++
 	}
@@ -81,9 +81,9 @@ func TestMediumUConsonant(t *testing.T) {
 		if c.VocalStrength() != script.Medium {
 			continue
 		}
-		got, want := c.BaseFormRep(), string(ucodes[itemIdx])
+		got, want := c.BaseFormRep(), ucodes[itemIdx]
 		if got != want {
-			t.Errorf("Medium UConsonant order mismatch; got '%s', want '%s'", got, want)
+			t.Errorf("Medium UConsonant order mismatch; got '%c', want '%c'", got, want)
 		}
 		itemIdx++
 	}
