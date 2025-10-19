@@ -34,14 +34,8 @@ type UVowel struct {
 // Thamizh vowel representative string
 func (v UVowel) Rep() string { return string(v.uForm) }
 
-// Thamizh attached-vowel representative string; or empty string if none
-func (v UVowel) AttachedFormRep() string {
-	if v.uAttachedForm == UNull {
-		return ""
-	} else {
-		return string(v.uAttachedForm)
-	}
-}
+// Thamizh attached-vowel representative 'rune'; or '\u0000'
+func (v UVowel) AttachedFormRep() rune { return v.uAttachedForm }
 
 // Thamizh vowel vocalization-duration enum
 func (v UVowel) VocalDuration() VocalDuration { return v.vocalDuration }
