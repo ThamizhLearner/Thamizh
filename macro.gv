@@ -1,0 +1,33 @@
+digraph {
+   node [ fontname = helvetica, shape = box, style = rounded ]
+   edge [ fontname = helvetica ]
+   graph [ fontname = helvetica ]
+   label = "\nProgram reference graph"
+
+   idx [ label = "Thamizh Letter\nIndex" ]
+
+   subgraph cluster_unicode {
+      label = "Unicode processes"
+      node [ style = dashed ]
+      uOut [ label = "Encoder" ]
+      uIn [ label = "Decoder" ]
+   }
+
+   subgraph cluster_model {
+      label = "Thamizh script API"
+      char [ label = "Letter" ]
+      str [ label = "String" ]
+   }
+
+   uStr [ label = "Unicode\nstring" ]
+
+   uStr -> uIn
+   uOut -> uStr
+
+   uIn -> idx [ label = "" ]
+   idx -> uOut [ label = "" ]
+
+   char -> idx [ label = "1:1" ]
+   str -> idx [ label = "1:N" ]
+   str -> char [ style = dashed ]
+}
