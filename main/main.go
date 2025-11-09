@@ -1,3 +1,4 @@
+// Test station for development of the தமிழ் (Thamizh) package
 package main
 
 import (
@@ -17,9 +18,9 @@ func testUnicode() {
 
 	fmt.Println()
 	fmt.Println("# Thamizh letter index slice")
-	fmt.Printf("%v", unicode.Decode("தமிழ்"))
+	fmt.Printf("%v\n", unicode.Decode("தமிழ்"))
 
 	fmt.Println()
-	fmt.Println("# Unicode => Thamizh letter slice => Unicode")
+	fmt.Println("# Thamizh letter slice => Unicode")
 	fmt.Println(unicode.Encode(unicode.Decode("தமிழ்")))
 }
