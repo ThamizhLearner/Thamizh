@@ -4,11 +4,21 @@ package main
 import (
 	"fmt"
 
-	"github.com/ThamizhLearner/Thamizh/unicode"
+	script "github.com/ThamizhLearner/Thamizh"
+	"github.com/ThamizhLearner/Thamizh/internal/unicode"
 )
 
 func main() {
 	testUnicode()
+	testLetter()
+}
+
+func testLetter() {
+	s := script.MustDecode("தமிழ்")
+	fmt.Println(s)
+	for l := range s.Values() {
+		fmt.Println(l)
+	}
 }
 
 // Test round-trip: Thamizh Unicode string <=> (Raw) Thamizh letter index slice

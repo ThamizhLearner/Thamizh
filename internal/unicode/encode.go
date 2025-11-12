@@ -3,7 +3,7 @@ package unicode
 import (
 	"strings"
 
-	base "github.com/ThamizhLearner/Thamizh/unicode/internal"
+	base "github.com/ThamizhLearner/Thamizh/internal/unicode/internal"
 )
 
 const (
@@ -35,9 +35,7 @@ var letterEncodings [246]string = func() [246]string {
 	return strs
 }()
 
-func EncodeLetter(idx uint8) string {
-	panic("")
-}
+func EncodeLetter(idx uint8) string { return letterEncodings[idx] }
 
 func Encode(idxs []uint8) string {
 	var sb strings.Builder

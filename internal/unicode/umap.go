@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	base "github.com/ThamizhLearner/Thamizh/unicode/internal"
+	base "github.com/ThamizhLearner/Thamizh/internal/unicode/internal"
 )
 
 const (
