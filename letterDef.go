@@ -49,7 +49,7 @@ func (chr Letter) Is(letterLiteral string) bool {
 // Unpair Thamizh vowelized-consonant letter
 func (chr Letter) DetachedCV() (c Letter, v Letter) {
 	cvIdx := chr.idx - 30
-	return Letter{idx: cvIdx / 12}, Letter{idx: cvIdx % 12}
+	return Letter{idx: 12 + cvIdx/12}, Letter{idx: cvIdx % 12}
 }
 
 func (chr Letter) String() string { return unicode.EncodeLetter(chr.idx) }
