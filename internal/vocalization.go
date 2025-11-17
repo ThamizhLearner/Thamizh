@@ -9,6 +9,7 @@ type VocalDuration uint8
 const (
 	// குறில் எழுத்து; Short vocalization-duration vowel
 	Short VocalDuration = iota
+
 	// நெடில் எழுத்து; Long vocalization-duration vowel
 	Long
 )

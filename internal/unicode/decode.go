@@ -33,7 +33,9 @@ func DumpAnnotations(s string) {
 	}
 }
 
-// Decodes Unicode string; returns Thamizh letter index slice
+// Gets Thamizh letter slice by decoding given Unicode string
+//
+// Returns nil on invalid Unicode string
 func Decode(s string) []uint8 {
 	// Only the BaseConsonant may be followed by atmost one AttachedDot/AttachedVowel
 	prev := annoCode{}

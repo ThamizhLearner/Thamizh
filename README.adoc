@@ -1,5 +1,10 @@
 =  Thamizh script letter model
 
+Contents::
+- <<Unicode-space>>
+- <<Letter-space>>
+
+[[Unicode-space]]
 == Thamizh Unicode block
 
 .Minimal Thamizh Unicode block +
@@ -16,6 +21,7 @@
 | U+0BCx | ீ | ு | ூ |  |  |  | 	ெ | ே | ை |  |  ொ | ோ | ௌ | ் |  |
 |===
 
+[[Letter-space]]
 == Thamizh letter space
 
 .உயிர் எழுத்துகள் (Vowel letters - Count: 12)
