@@ -56,6 +56,9 @@ func (s String) LetterAt(idx int) Letter { return Letter{idx: s.idxs[idx]} }
 // Stringer interface implementation
 func (s String) String() string { return unicode.Encode(s.idxs) }
 
+// Count of letters in the string
+func (s String) Len() int { return len(s.idxs) }
+
 func mapper[V, U any](s iter.Seq[V], mapFn func(V) U) iter.Seq[U] {
 	return func(yield func(U) bool) {
 		for item := range s {
