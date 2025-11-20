@@ -30,17 +30,57 @@ func TestLetterAt(t *testing.T) {
 	}
 	for i, expectStr := range []string{"த", "மி", "ழ்"} {
 		if s.LetterAt(i).String() != expectStr {
-			t.Errorf("Letter At %d", i)
+			t.Errorf("Letter At %d, expected %s, got %s", i, expectStr, s.LetterAt(i))
 		}
 	}
 }
 
 func TestLetterIter(t *testing.T) {
-	t.Skip("TODO")
+	s := script.MustDecode("தமிழ்")
+	lStrs := []string{"த", "மி", "ழ்"}
+	i := 0
+	for letter := range s.Letters() {
+		if letter.String() != lStrs[i] {
+			t.Errorf("Iteration At %d, expected %s, got %s", i, lStrs[i], letter)
+		}
+		i++
+	}
 }
 
-func TestTrimAppend(t *testing.T) {
-	t.Skip("TODO")
+func TestTrimEnd(t *testing.T) {
+	tests := []struct {
+		ustr  string
+		utrim string
+		ures  string
+	}{
+		{"தமிழிலக்கனம்", "இலக்கனம்", "தமிழ்"},
+	}
+	for i, tc := range tests {
+		s := script.MustDecode(tc.ustr)
+		trimStr := script.MustDecode(tc.utrim)
+		resStr, ok := s.TrimEnd(trimStr)
+		if !ok || resStr.String() != tc.ures {
+			t.Errorf("Trim end %d, expected %s, got %s", i, tc.ures, resStr)
+		}
+	}
+}
+
+func TestAppend(t *testing.T) {
+	tests := []struct {
+		ustr    string
+		uappend string
+		ures    string
+	}{
+		{"தமிழ்", "இலக்கனம்", "தமிழிலக்கனம்"},
+	}
+	for i, tc := range tests {
+		s := script.MustDecode(tc.ustr)
+		appendStr := script.MustDecode(tc.uappend)
+		resStr := s.Append(appendStr)
+		if resStr.String() != tc.ures {
+			t.Errorf("Append %d, expected %s, got %s", i, tc.ures, resStr)
+		}
+	}
 }
 
 func TestSyllabification(t *testing.T) {
