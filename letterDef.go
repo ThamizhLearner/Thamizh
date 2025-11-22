@@ -4,6 +4,7 @@ package script
 
 import (
 	"fmt"
+	"slices"
 
 	"github.com/ThamizhLearner/Thamizh/internal/unicode"
 )
@@ -11,6 +12,15 @@ import (
 // The Thamizh letter
 type Letter struct {
 	idx uint8
+}
+
+func MustNewLetter(ustr string) Letter {
+	s := MustDecode(ustr)
+	letters := slices.Collect(s.Letters())
+	if len(letters) != 1 {
+		panic("Expected single Thamizh letter Unicode string")
+	}
+	return letters[0]
 }
 
 // Indicates a Thamizh vowel letter (உயிர் எழுத்து)
