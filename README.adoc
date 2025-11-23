@@ -49,7 +49,7 @@ For more details: https://github.com/ThamizhLearner/Thamizh/blob/main/stringDef.
 NOTE:: Thamizh script letter concept based library users do not need to know about the index allocation mechanism.
 The Letter and String implementations hide these implementation details, and give a clean interface to work with Thamizh letters. +
 +
-No more struggling with Thamizh script Unicode symbol (not letter or character) encoding.
+No more struggling with Thamizh script Unicode symbol (!) encoding details.
 
 .Thamizh script letter model usage samples
 - https://github.com/ThamizhLearner/Thamizh/blob/main/string_test.go
