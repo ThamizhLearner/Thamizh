@@ -1,8 +1,60 @@
 =  Thamizh script letter model
+:source-highlighter: highlight.js
 
 Contents::
+- <<LetterModel-space>>
 - <<Unicode-space>>
 - <<Letter-space>>
+
+[[LetterModel-space]]
+== Thamizh script letter model
+Core idea is to assign a (zero-based) number (or index) to each of the 246 Thamizh letters.
+
+.12 Vowel letters
+- First 12 numbers indicate the 12 vowel letters
+- Index range - 0 to 11
+- Example: index value 0 => அ
+
+.18 Consonant letters
+- Next 18 numbers indicate the 18 consonant letters
+- Index range - 12 to 29
+- Example: index value 12 => க்
+
+.216 Vowelized-consonant letters
+- Next 216 numbers indicate the 216 vowelized-consonant letters
+- Index range - 30 to 245
+- Example: index value 30 => க
+
+The Thamizh script letter model object internally holds an index corresponding to the Thamizh letter it represents within the library.
+
+[.source golang]
+----
+// Simple wrapper to encapsulate the letter index
+type Letter struct {
+   idx uint8 // private field
+}
+----
+For more details: https://github.com/ThamizhLearner/Thamizh/blob/main/letterDef.go
+
+Similarly, the Thamizh script letter string model
+[.source golang]
+----
+// Simple wrapper to encapsulate the letter indexes making up the string
+type String struct {
+   idxs []uint8 // private field
+}
+----
+For more details: https://github.com/ThamizhLearner/Thamizh/blob/main/stringDef.go
+
+NOTE:: Thamizh script letter concept based library users do not need to know about the index allocation mechanism.
+The Letter and String implementations hide these implementation details, and give a clean interface to work with Thamizh letters. +
++
+No more struggling with Thamizh script Unicode symbol (not letter or character) encoding.
+
+.Thamizh script letter model usage samples
+- https://github.com/ThamizhLearner/Thamizh/blob/main/string_test.go
+- https://github.com/ThamizhLearner/Thamizh/blob/main/letter_test.go
+- https://github.com/ThamizhLearner/ThamizhLibUsage
 
 [[Unicode-space]]
 == Thamizh Unicode block
@@ -77,7 +129,7 @@ h| குறில் (short) h| நெடில் (long) h| வல்லின
 | இ | ஈ | ச் | ர் | ஞ்
 | உ | ஊ | ட் | ல் | ண்
 | எ | ஏ | த் | வ் | ந்
-| | ஐ | ப் | ழ் | ம்
-| ஒ | ஓ | ற் | ள் | ன்
+| ஒ | ஐ | ப் | ழ் | ம்
+| | ஓ | ற் | ள் | ன்
 | | ஔ | | |		
 |===
