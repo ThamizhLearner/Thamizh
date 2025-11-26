@@ -58,7 +58,7 @@ func TestTrimEnd(t *testing.T) {
 	for i, tc := range tests {
 		s := script.MustDecode(tc.ustr)
 		trimStr := script.MustDecode(tc.utrim)
-		resStr, ok := s.TrimEnd(trimStr)
+		resStr, ok := s.TailTrimmed(trimStr)
 		if !ok || resStr.String() != tc.ures {
 			t.Errorf("Trim end %d, expected %s, got %s", i, tc.ures, resStr)
 		}
@@ -76,7 +76,7 @@ func TestAppend(t *testing.T) {
 	for i, tc := range tests {
 		s := script.MustDecode(tc.ustr)
 		appendStr := script.MustDecode(tc.uappend)
-		resStr := s.Append(appendStr)
+		resStr := s.Appended(appendStr)
 		if resStr.String() != tc.ures {
 			t.Errorf("Append %d, expected %s, got %s", i, tc.ures, resStr)
 		}
