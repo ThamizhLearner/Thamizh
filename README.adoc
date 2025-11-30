@@ -63,7 +63,7 @@ The current implementation uses the number index allocation described in the pre
 
 This section describes number index allocation mechanism which allows letters to be sortable according to the Thamizh alphabetical order.
 
-=== Allocation strategy play layout
+=== Allocation strategy plan layout
 
 [%autowidth]
 [cols="1,1,1,1,1,1,1,1,1,1,1,1",frame=none]
