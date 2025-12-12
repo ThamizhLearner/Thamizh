@@ -219,7 +219,8 @@ func (s String) Syllables() []String {
 	return append(subs, String{idxs: s.idxs[sIdx:]}) // Capture the syllable we got
 }
 
-func (s String) SyllabifiedUStr(usep string) string {
+// Returns syllabified string (spaced using given usep separator), and syllable count
+func (s String) SyllabifiedUStr(usep string) (string, int) {
 	var sb strings.Builder
 	subs := s.Syllables()
 	lastIdx := len(subs) - 1
@@ -230,7 +231,7 @@ func (s String) SyllabifiedUStr(usep string) string {
 		}
 		sb.WriteString(usep)
 	}
-	return sb.String()
+	return sb.String(), len(subs)
 }
 
 // Indicates if the given letter index slices have the same elements
