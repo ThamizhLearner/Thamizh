@@ -38,9 +38,6 @@ func Decode(ustr string) (String, bool) {
 // Use it for Thamizh Unicode literals in code, which are expected to be valid Thamizh Unicode strings.
 func MustDecode(ustr string) String {
 	idxs := unicode.Decode(ustr)
-	if idxs == nil {
-		panic("invalid Thamizh Unicode string")
-	}
 	return String{idxs: idxs}
 }
 
