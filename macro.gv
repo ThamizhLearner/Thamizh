@@ -7,16 +7,16 @@ digraph {
    idx [ label = "Thamizh Letter\nIndex" ]
 
    subgraph cluster_unicode {
-      label = "Unicode processes"
+      label = "Unicode"
       node [ style = dashed ]
       uOut [ label = "Encoder" ]
       uIn [ label = "Decoder" ]
    }
 
    subgraph cluster_model {
-      label = "Thamizh script API"
+      label = "Thamizh script"
       char [ label = "Letter" ]
-      str [ label = "String" ]
+      str [ label = "LetterSeq" ]
    }
 
    uStr [ label = "Unicode\nstring" ]
@@ -28,6 +28,5 @@ digraph {
    idx -> uOut [ label = "" ]
 
    char -> idx [ label = "1:1" ]
-   str -> idx [ label = "1:N" ]
-   str -> char [ style = dashed ]
+   str -> char [ label = "Seq" style = dashed ]
 }

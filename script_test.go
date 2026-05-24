@@ -7,8 +7,8 @@ import (
 )
 
 func TestSuffixTrimmed(t *testing.T) {
-	seq := script.UnsafeGetLetterSeq("வழிகள்")
-	sfx := script.UnsafeGetLetterSeq("கள்")
+	seq := script.MustLetterSeqFrom("வழிகள்")
+	sfx := script.MustLetterSeqFrom("கள்")
 
 	res, ok := script.SuffixTrimmed(seq, sfx)
 	if !ok || res.String() != "வழி" {
@@ -22,7 +22,7 @@ func TestSuffixTrimmed(t *testing.T) {
 	}
 
 	// No trim
-	sfx2 := script.UnsafeGetLetterSeq("கல்")
+	sfx2 := script.MustLetterSeqFrom("கல்")
 	_, ok = script.SuffixTrimmed(seq, sfx2)
 	if ok {
 		t.FailNow()
@@ -30,8 +30,8 @@ func TestSuffixTrimmed(t *testing.T) {
 }
 
 func TestSuffixAppended(t *testing.T) {
-	seq := script.UnsafeGetLetterSeq("வழி")
-	sfx := script.UnsafeGetLetterSeq("கள்")
+	seq := script.MustLetterSeqFrom("வழி")
+	sfx := script.MustLetterSeqFrom("கள்")
 
 	res := script.SuffixAppended(seq, sfx)
 	if res.String() != "வழிகள்" {
@@ -40,16 +40,16 @@ func TestSuffixAppended(t *testing.T) {
 }
 
 func TestVSuffixTrimmed(t *testing.T) {
-	seq := script.UnsafeGetLetterSeq("தமிழிலக்கணம்")
-	sfx := script.UnsafeGetLetterSeq("இலக்கணம்")
+	seq := script.MustLetterSeqFrom("தமிழிலக்கணம்")
+	sfx := script.MustLetterSeqFrom("இலக்கணம்")
 
 	res, ok := script.VSuffixTrimmed(seq, sfx)
 	if !ok || res.String() != "தமிழ்" {
 		t.FailNow()
 	}
 
-	seq = script.UnsafeGetLetterSeq("ண")
-	sfx = script.UnsafeGetLetterSeq("அ")
+	seq = script.MustLetterSeqFrom("ண")
+	sfx = script.MustLetterSeqFrom("அ")
 	res, ok = script.VSuffixTrimmed(seq, sfx)
 	if !ok || res.String() != "ண்" {
 		t.FailNow()
@@ -57,16 +57,16 @@ func TestVSuffixTrimmed(t *testing.T) {
 }
 
 func TestVSuffixAppended(t *testing.T) {
-	seq := script.UnsafeGetLetterSeq("தமிழ்")
-	sfx := script.UnsafeGetLetterSeq("இலக்கணம்")
+	seq := script.MustLetterSeqFrom("தமிழ்")
+	sfx := script.MustLetterSeqFrom("இலக்கணம்")
 
 	res, ok := script.VSuffixAppended(seq, sfx)
 	if !ok || res.String() != "தமிழிலக்கணம்" {
 		t.FailNow()
 	}
 
-	seq = script.UnsafeGetLetterSeq("ண்")
-	sfx = script.UnsafeGetLetterSeq("அ")
+	seq = script.MustLetterSeqFrom("ண்")
+	sfx = script.MustLetterSeqFrom("அ")
 	res, ok = script.VSuffixAppended(seq, sfx)
 	if !ok || res.String() != "ண" {
 		t.FailNow()
@@ -74,7 +74,7 @@ func TestVSuffixAppended(t *testing.T) {
 }
 
 func TestSyllabification(t *testing.T) {
-	seq := script.UnsafeGetLetterSeq("தமிழ்")
+	seq := script.MustLetterSeqFrom("தமிழ்")
 	res, c := script.SyllabifiedUStr(seq, "-")
 	if c != 2 || res != "த-மிழ்" {
 		t.FailNow()

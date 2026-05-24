@@ -19,23 +19,22 @@ initialized using the given Unicode string representing a Thamizh letter.
 Usage:
 
 	import script "github.com/ThamizhLearner/Thamizh"
-	var letter script.Letter := script.UnsafeGetLetter ("அ")
+	var letter script.Letter := script.MustLetterFrom ("அ")
 */
-func UnsafeGetLetter(ustr string) Letter {
-	letterIdxs, ok := unicode.Decode(ustr)
-	if !ok {
-		panic("Invalid Thamizh Unicode string")
-	}
-	if len(letterIdxs) != 1 {
+func MustLetterFrom(ustr string) Letter {
+	seq, ok := LetterSeqFrom(ustr)
+	if !ok || seq.Len() != 1 {
 		panic("Expected single Thamizh letter Unicode string")
 	}
-	return Letter{idx: letterIdxs[0]}
+	return seq.First()
 }
 
-func UnsafeGetLetterSeq(ustr string) LetterSeq { return LetterSeq{letters: unsafeNewLetterSlice(ustr)} }
+func MustLetterSeqFrom(ustr string) LetterSeq {
+	return LetterSeq{letters: mustLetterSliceFrom(ustr)}
+}
 
-func GetLetterSeq(ustr string) (LetterSeq, bool) {
-	letters, ok := newLetterSlice(ustr)
+func LetterSeqFrom(ustr string) (LetterSeq, bool) {
+	letters, ok := letterSliceFrom(ustr)
 	if !ok {
 		return LetterSeq{}, false
 	}
@@ -46,16 +45,15 @@ func GetLetterSeq(ustr string) (LetterSeq, bool) {
 // Internal Thamizh Unicode to Thamizh Letter array inter-converters
 // -------------------------------------------------------------
 
-func unsafeNewLetterSlice(ustr string) []Letter {
-	letterIdxs, _ := unicode.Decode(ustr)
-	letters := make([]Letter, len(letterIdxs))
-	for i, letterIdx := range letterIdxs {
-		letters[i] = Letter{idx: letterIdx}
+func mustLetterSliceFrom(ustr string) []Letter {
+	letters, ok := letterSliceFrom(ustr)
+	if !ok {
+		panic("Expected valid Thamizh Unicode string")
 	}
 	return letters
 }
 
-func newLetterSlice(ustr string) ([]Letter, bool) {
+func letterSliceFrom(ustr string) ([]Letter, bool) {
 	if len(ustr) == 0 {
 		return nil, false
 	}
@@ -70,7 +68,7 @@ func newLetterSlice(ustr string) ([]Letter, bool) {
 	return letters, true
 }
 
-func letterSliceToUnicode(letters []Letter) string {
+func stringifyLetterSlice(letters []Letter) string {
 	idxs := make([]uint8, len(letters))
 	for i, letter := range letters {
 		idxs[i] = letter.idx
@@ -114,7 +112,7 @@ func VSuffixTrimmed(seq, sfx LetterSeq) (LetterSeq, bool) {
 	if !cv.IsCV() {
 		return LetterSeq{}, false
 	}
-	c2, v2 := cv.SplitCV()
+	c2, v2 := cv.UnsafeSplitCV()
 	if !v.Equals(v2) {
 		return LetterSeq{}, false
 	}
