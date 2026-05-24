@@ -3,24 +3,12 @@
 package script
 
 import (
-	"fmt"
-	"slices"
-
 	"github.com/ThamizhLearner/Thamizh/internal/unicode"
 )
 
 // The Thamizh letter
 type Letter struct {
 	idx uint8
-}
-
-func MustNewLetter(ustr string) Letter {
-	s := MustDecode(ustr)
-	letters := slices.Collect(s.Letters())
-	if len(letters) != 1 {
-		panic("Expected single Thamizh letter Unicode string")
-	}
-	return letters[0]
 }
 
 // Indicates a Thamizh vowel letter (உயிர் எழுத்து)
@@ -51,16 +39,14 @@ func (chr Letter) IsShortVocal() bool { return qBitFields[chr.idx]&bit_Short != 
 func (chr Letter) IsLongVocal() bool { return qBitFields[chr.idx]&bit_Long != 0 }
 
 // Indicates the letter is same as the specified letter
-func (chr Letter) Is(l Letter) bool { return chr.idx == l.idx }
+func (chr Letter) Is(l Letter) bool     { return chr.idx == l.idx }
+func (chr Letter) Equals(l Letter) bool { return chr.idx == l.idx }
 
 // Indicates the letter is the same as specified in the given Thamizh letter Unicode string
 func (chr Letter) IsLetter(ustr string) bool {
-	idxs := unicode.Decode(ustr)
-	if idxs == nil {
-		panic(fmt.Sprintf("Invalid letter literal %s", ustr))
-	}
-	if len(idxs) > 1 {
-		panic("Expected single Thamizh letter Unicode string")
+	idxs, ok := unicode.Decode(ustr)
+	if !ok || len(idxs) != 1 {
+		return false
 	}
 	return idxs[0] == chr.idx
 }
@@ -74,6 +60,12 @@ func (cv Letter) SplitCV() (c Letter, v Letter) {
 	return Letter{idx: 12 + cvIdx/12}, Letter{idx: cvIdx % 12}
 }
 
+// Unpair Thamizh vowelized-consonant letter
+func (cv Letter) UnsafeSplitCV() (c Letter, v Letter) {
+	cvIdx := cv.idx - 30
+	return Letter{idx: 12 + cvIdx/12}, Letter{idx: cvIdx % 12}
+}
+
 // Forms vowelized-consonant letter
 func (c Letter) JoinCV(v Letter) Letter {
 	if !c.IsC() || !v.IsV() {
@@ -81,6 +73,9 @@ func (c Letter) JoinCV(v Letter) Letter {
 	}
 	return Letter{idx: 30 + (c.idx-12)*12 + v.idx}
 }
+
+// Forms vowelized-consonant letter
+func (c Letter) UnsafeJoinCV(v Letter) Letter { return Letter{idx: 30 + (c.idx-12)*12 + v.idx} }
 
 // Stringer interface implementation
 func (chr Letter) String() string { return unicode.EncodeLetter(chr.idx) }

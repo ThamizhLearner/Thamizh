@@ -83,7 +83,7 @@ func TestAppend(t *testing.T) {
 	}
 }
 
-func TestSyllabification(t *testing.T) {
+func TestSyllabificationOld(t *testing.T) {
 	tests := []struct {
 		inp  string
 		want string
@@ -95,7 +95,7 @@ func TestSyllabification(t *testing.T) {
 		{"ஒட்டுமொத்தமாகப்பார்த்துக்கொண்டிருந்தாள்", "ஒட்-டு-மொத்-த-மா-கப்-பார்த்-துக்-கொண்-டி-ருந்-தாள்"},
 	}
 	for _, testCase := range tests {
-		got := script.MustDecode(testCase.inp).SyllabifiedUStr("-")
+		got, _ := script.MustDecode(testCase.inp).SyllabifiedUStr("-")
 		if got != testCase.want {
 			t.Errorf("Syllabification: Expected %s, Got %s", testCase.want, got)
 		}

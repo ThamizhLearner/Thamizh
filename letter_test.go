@@ -11,14 +11,14 @@ func TestLetterType(t *testing.T) {
 	s := script.MustDecode("தமிழ்")
 	letters := slices.Collect(s.Letters())
 	if !letters[0].IsCV() {
-		t.Errorf("Expected vowelized-consonant CV")
+		t.Errorf("Expected vowelized-consonant CV property")
 	}
 	if !letters[2].IsC() {
-		t.Errorf("Expected consonant C")
+		t.Errorf("Expected consonant C property")
 	}
-	vowelLetter := script.MustNewLetter("அ")
+	vowelLetter := script.UnsafeGetLetter("அ")
 	if !vowelLetter.IsV() {
-		t.Errorf("Expected vowel V")
+		t.Errorf("Expected vowel V property")
 	}
 }
 
@@ -28,31 +28,31 @@ func TestLetterIs(t *testing.T) {
 		t.Errorf("Letter IsLetter")
 	}
 
-	testLetter := script.MustNewLetter("இ")
+	testLetter := script.UnsafeGetLetter("இ")
 	if !letters[0].Is(testLetter) {
 		t.Errorf("Letter Is")
 	}
 }
 
 func TestVocalization(t *testing.T) {
-	letter := script.MustNewLetter("அ")
+	letter := script.UnsafeGetLetter("அ")
 	if !letter.IsShortVocal() {
 		t.Errorf("Short vocal letter")
 	}
 
-	letter = script.MustNewLetter("க்")
+	letter = script.UnsafeGetLetter("க்")
 	if !letter.IsStrongVocal() {
 		t.Errorf("Strong vocal letter")
 	}
 
-	letter = script.MustNewLetter("க")
+	letter = script.UnsafeGetLetter("க")
 	if !letter.IsStrongVocal() || !letter.IsShortVocal() {
 		t.Errorf("Short and strong vocal lettter")
 	}
 }
 
 func TestSplitJoinCV(t *testing.T) {
-	cv := script.MustNewLetter("க")
+	cv := script.UnsafeGetLetter("க")
 	c, v := cv.SplitCV()
 	if !c.IsLetter("க்") && !v.IsLetter("அ") {
 		t.Errorf("Split CV")
