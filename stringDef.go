@@ -10,13 +10,6 @@ import (
 	"github.com/ThamizhLearner/Thamizh/internal/unicode"
 )
 
-/*
-	Basic rules:
-	0. Never allow invalid Letter [Program sanity concern]
-	1. Reuse the slice wherever possible [Memory efficiency concern]
-	2.	Must never mutate or append to existing slices (slices are shared wherever possible) [Avoidable bug concern]
-*/
-
 // The Thamizh letter string
 type String struct {
 	idxs []uint8
@@ -26,8 +19,8 @@ func newEmptyString() String { return String{idxs: make([]uint8, 0)} }
 
 // Attempts decoding the given Thamizh Unicode string
 func Decode(ustr string) (String, bool) {
-	idxs := unicode.Decode(ustr)
-	if idxs == nil {
+	idxs, ok := unicode.Decode(ustr)
+	if !ok {
 		return newEmptyString(), false
 	}
 	return String{idxs: idxs}, true
@@ -37,14 +30,14 @@ func Decode(ustr string) (String, bool) {
 //
 // Use it for Thamizh Unicode literals in code, which are expected to be valid Thamizh Unicode strings.
 func MustDecode(ustr string) String {
-	idxs := unicode.Decode(ustr)
+	idxs, _ := unicode.Decode(ustr)
 	return String{idxs: idxs}
 }
 
 // Indicates if given Unicode string is a (structurally valid) Thamizh Unicode string
-func IsValidThamizhUStr(ustr string) bool { // TODO: Needs performace optimization!
-	idxs := unicode.Decode(ustr)
-	return idxs != nil
+func IsValidThamizhUStr(ustr string) bool {
+	_, ok := unicode.Decode(ustr)
+	return ok
 }
 
 func (s String) FirstLetter() Letter     { return Letter{idx: s.idxs[0]} }
@@ -56,6 +49,8 @@ func (s String) String() string { return unicode.Encode(s.idxs) }
 
 // Count of Thamizh letters in the string
 func (s String) Len() int { return len(s.idxs) }
+
+func (s String) IsEmpty() bool { return len(s.idxs) == 0 }
 
 func mapper[V, U any](s iter.Seq[V], mapFn func(V) U) iter.Seq[U] {
 	return func(yield func(U) bool) {
@@ -136,9 +131,7 @@ func (s String) HeadTrimmedRaw(headStr String) (String, bool) {
 }
 
 // Get (head string) trimmed string on successful head string match
-func (s String) HeadTrimmed(headStr String) (String, bool) {
-	panic("TODO")
-}
+func (s String) HeadTrimmed(headStr String) (String, bool) { panic("TODO") }
 
 // Get (replacement tail string) replaced string on successful tail string match
 func (s String) TailReplaced(tailStr String, tailFix String) (String, bool) {
@@ -157,7 +150,7 @@ func (s String) AppendedRaw(s2 String) String {
 	return String{idxs: idxs}
 }
 
-// Appended given string to this string
+// Appended given string to this string (Attempts to do CV merge)
 func (s String) Appended(s2 String) String {
 	lenA := len(s.idxs)
 	letterA := s.LastLetter()
@@ -172,12 +165,7 @@ func (s String) Appended(s2 String) String {
 	return String{idxs: idxs}
 }
 
-func (s String) StartsWith(headMatch String) bool {
-	if headMatch.Len() < s.Len() {
-		return false
-	}
-	panic("TODO")
-}
+func (s String) StartsWith(headMatch String) bool { panic("TODO") }
 
 func (s String) StartsExactWith(headMatch String) bool {
 	if headMatch.Len() < s.Len() {
@@ -186,12 +174,7 @@ func (s String) StartsExactWith(headMatch String) bool {
 	return matchIdxSlices(s.idxs[:headMatch.Len()], headMatch.idxs)
 }
 
-func (s String) EndsWith(tailMatch String) bool {
-	if tailMatch.Len() < s.Len() {
-		return false
-	}
-	panic("TODO")
-}
+func (s String) EndsWith(tailMatch String) bool { panic("TODO") }
 
 func (s String) EndsExactWith(tailMatch String) bool {
 	if tailMatch.Len() < s.Len() {

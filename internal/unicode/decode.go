@@ -36,11 +36,11 @@ func DumpAnnotations(s string) {
 // Gets Thamizh letter slice by decoding given Unicode string
 //
 // Returns nil on invalid Unicode string
-func Decode(s string) []uint8 {
+func Decode(ustr string) ([]uint8, bool) {
 	// Only the BaseConsonant may be followed by atmost one AttachedDot/AttachedVowel
 	prev := annoCode{}
 	var idxs []uint8
-	for _, curr := range getAnnotations(s) {
+	for _, curr := range getAnnotations(ustr) {
 		switch curr.group {
 		case tBaseConsonant:
 			if prev.group == tBaseConsonant {
@@ -53,7 +53,7 @@ func Decode(s string) []uint8 {
 			idxs = append(idxs, curr.idx)
 		case tDetachedVowel, tDetachedDot:
 			if prev.group != tBaseConsonant {
-				return nil // Invalid input: Missing base-consonant
+				return nil, false // Invalid input: Missing base-consonant
 			}
 			if curr.group == tDetachedDot {
 				idxs = append(idxs, 12+prev.idx)
@@ -61,12 +61,12 @@ func Decode(s string) []uint8 {
 				idxs = append(idxs, 30+prev.idx*12+curr.idx)
 			}
 		case tNone:
-			return nil // Invalid input: Not-supported code-point annotation
+			return nil, false // Invalid input: Not-supported code-point annotation
 		}
 		prev = curr
 	}
 	if prev.group == tBaseConsonant {
 		idxs = append(idxs, 30+prev.idx*12)
 	}
-	return idxs
+	return idxs, true
 }

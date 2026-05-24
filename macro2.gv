@@ -1,0 +1,19 @@
+digraph {
+   // Thamizh Unicode encoding is non-intuitive way of dealing with Thamizh script
+   // This causes some Thamizh letters to be encoded using 2 code-points.
+
+   node [ fontname = helvetica, shape = box, style = rounded ]
+   edge [ fontname = helvetica ]
+   graph [ fontname = helvetica, style = rounded ]
+   label = "\nIt's all about encoding"
+
+   subgraph cluster_ucode {
+      label = "Unicode encoding\nspace"
+      symbols [ label = "Encoded symbols" ]
+   }
+   
+   subgraph cluster_lcode {
+      label = "Thamizh letter encoding\nspace"
+      lcode [ label = "Encoded Letters" ]
+   }
+}
