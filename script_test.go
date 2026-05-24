@@ -79,4 +79,10 @@ func TestSyllabification(t *testing.T) {
 	if c != 2 || res != "த-மிழ்" {
 		t.FailNow()
 	}
+
+	seq = script.MustLetterSeqFrom("இலக்கணம்")
+	res, c = script.SyllabifiedUStr(seq, "-")
+	if c != 4 || res != "இ-லக்-க-ணம்" {
+		t.FailNow()
+	}
 }

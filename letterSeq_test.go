@@ -137,11 +137,11 @@ func TestLetterSubSequencing(t *testing.T) {
 		if seq2.Len() != 3 || seq2.String() != "தமிழ்" {
 			t.FailNow()
 		}
-		seq2 = seq.TakeRangeN(1, 2)
+		seq2 = seq.TakeRangeN(1, 3)
 		if seq2.Len() != 2 || seq2.String() != "மிழ்" {
 			t.FailNow()
 		}
-		seq2 = seq.TakeRangeN(2, 0)
+		seq2 = seq.TakeRangeN(2, 2)
 		if seq2.Len() != 0 || seq2.String() != "" {
 			t.FailNow()
 		}

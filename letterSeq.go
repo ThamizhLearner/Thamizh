@@ -108,8 +108,8 @@ func (this LetterSeq) TakeLastN(count int) LetterSeq {
 }
 
 // Create letter sub-array by coping N letters, starting at the specified start offset
-func (this LetterSeq) TakeRangeN(startIdx int, count int) LetterSeq {
-	return LetterSeq{letters: this.letters[startIdx : startIdx+count]}
+func (this LetterSeq) TakeRangeN(lowIdx int, highIdx int) LetterSeq {
+	return LetterSeq{letters: this.letters[lowIdx:highIdx]}
 }
 
 // -------------------------------------------------------------
