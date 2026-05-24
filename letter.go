@@ -52,12 +52,21 @@ func (chr Letter) IsLetter(ustr string) bool {
 }
 
 // Unpair Thamizh vowelized-consonant letter
-func (cv Letter) SplitCV() (c Letter, v Letter) {
+func (cv Letter) SplitCV() (c Letter, v Letter, ok bool) {
 	if !cv.IsCV() {
-		panic("expected CV letter")
+		return Letter{}, Letter{}, false
 	}
-	cvIdx := cv.idx - 30
-	return Letter{idx: 12 + cvIdx/12}, Letter{idx: cvIdx % 12}
+	c, v = cv.UnsafeSplitCV()
+	return c, v, true
+}
+
+// Unpair Thamizh vowelized-consonant letter
+func (cv Letter) MustSplitCV() (c Letter, v Letter) {
+	c, v, ok := cv.SplitCV()
+	if !ok {
+		panic("Expected CV letter")
+	}
+	return c, v
 }
 
 // Unpair Thamizh vowelized-consonant letter
@@ -67,11 +76,20 @@ func (cv Letter) UnsafeSplitCV() (c Letter, v Letter) {
 }
 
 // Forms vowelized-consonant letter
-func (c Letter) JoinCV(v Letter) Letter {
+func (c Letter) JoinCV(v Letter) (Letter, bool) {
 	if !c.IsC() || !v.IsV() {
-		panic("expected C and V letters")
+		return Letter{}, false
 	}
-	return Letter{idx: 30 + (c.idx-12)*12 + v.idx}
+	return c.UnsafeJoinCV(v), true
+}
+
+// Forms vowelized-consonant letter
+func (c Letter) MustJoinCV(v Letter) Letter {
+	cv, ok := c.JoinCV(v)
+	if !ok {
+		panic("Expected C and V letters")
+	}
+	return cv
 }
 
 // Forms vowelized-consonant letter

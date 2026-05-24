@@ -14,7 +14,7 @@ type LetterSeq struct {
 // Unicode interop
 // -------------------------------------------------------------
 
-func (this LetterSeq) String() string { return letterSliceToUnicode(this.letters) }
+func (this LetterSeq) String() string { return stringifyLetterSlice(this.letters) }
 
 // -------------------------------------------------------------
 // LetterSeq initialization
