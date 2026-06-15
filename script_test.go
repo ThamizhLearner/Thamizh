@@ -73,6 +73,23 @@ func TestVSuffixAppended(t *testing.T) {
 	}
 }
 
+func TestVSuffixVSubst(t *testing.T) {
+	seq := script.MustLetterSeqFrom("தோன்று")
+	sfx := script.MustLetterSeqFrom("இன்")
+
+	res, ok := script.VSuffixVSubst(seq, sfx)
+	if !ok || res.String() != "தோன்றின்" {
+		t.FailNow()
+	}
+
+	seq = script.MustLetterSeqFrom("ணி")
+	sfx = script.MustLetterSeqFrom("அ")
+	res, ok = script.VSuffixVSubst(seq, sfx)
+	if !ok || res.String() != "ண" {
+		t.FailNow()
+	}
+}
+
 func TestSyllabification(t *testing.T) {
 	seq := script.MustLetterSeqFrom("தமிழ்")
 	res, c := script.SyllabifiedUStr(seq, "-")

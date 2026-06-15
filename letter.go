@@ -23,19 +23,19 @@ func (chr Letter) IsCV() bool { return chr.idx >= 30 } // Note: No need for uppe
 // Indicates a Thamizh primary letter (முதல் எழுத்து)
 func (chr Letter) IsPrimary() bool { return chr.idx < 30 }
 
-// Indicates if this letter has strong-strength vocalization characteric (வல்லின எழுத்து)
+// Indicates if this letter has strong-strength vocalization characteristic (வல்லின எழுத்து)
 func (chr Letter) IsStrongVocal() bool { return qBitFields[chr.idx]&bit_Strong != 0 }
 
-// Indicates if this letter has medium-strength vocalization characteric (இடையின எழுத்து)
+// Indicates if this letter has medium-strength vocalization characteristic (இடையின எழுத்து)
 func (chr Letter) IsMediumVocal() bool { return qBitFields[chr.idx]&bit_Medium != 0 }
 
-// Indicates if this letter has mild-strength vocalization characteric (மெல்லின எழுத்து)
+// Indicates if this letter has mild-strength vocalization characteristic (மெல்லின எழுத்து)
 func (chr Letter) IsMildVocal() bool { return qBitFields[chr.idx]&bit_Mild != 0 }
 
-// Indicates if this letter has short-duration vocalization characteric (குறில் எழுத்து)
+// Indicates if this letter has short-duration vocalization characteristic (குறில் எழுத்து)
 func (chr Letter) IsShortVocal() bool { return qBitFields[chr.idx]&bit_Short != 0 }
 
-// Indicates if this letter has long-duration vocalization characteric (நெடில் எழுத்து)
+// Indicates if this letter has long-duration vocalization characteristic (நெடில் எழுத்து)
 func (chr Letter) IsLongVocal() bool { return qBitFields[chr.idx]&bit_Long != 0 }
 
 // Indicates the letter is same as the specified letter

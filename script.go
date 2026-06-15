@@ -42,7 +42,7 @@ func LetterSeqFrom(ustr string) (LetterSeq, bool) {
 }
 
 // -------------------------------------------------------------
-// Internal Thamizh Unicode to Thamizh Letter array inter-converters
+// Internal Thamizh Unicode to Thamizh Letter slice inter-converters
 // -------------------------------------------------------------
 
 func mustLetterSliceFrom(ustr string) []Letter {
@@ -78,13 +78,12 @@ func stringifyLetterSlice(letters []Letter) string {
 
 // -------------------------------------------------------------
 // Specialized methods dealing with LetterSeq [Extrinsic methods]
-// (Basic) Linguistic domain operation methods
-//	 - CV join/split
-//  - (basic CV awareness level) suffix/prefix match ('n trim)
-//  - (basic CV awareness level) suffix/prefix attachment
+// These methods are not supported by LetterSeq directly.
 // -------------------------------------------------------------
 
-// Match and trim specified suffix sequence as is.
+// Attempts to match and trim specified suffix sequence as is.
+//
+// Example: வழிகள் - கள் => வழி
 func SuffixTrimmed(seq, sfx LetterSeq) (LetterSeq, bool) {
 	if !seq.EndsWith(sfx) {
 		return LetterSeq{}, false
@@ -93,9 +92,15 @@ func SuffixTrimmed(seq, sfx LetterSeq) (LetterSeq, bool) {
 }
 
 // Suffix concatenated as is.
+//
+// No C+V join is attempted
+//
+// Example: த்த் + ஏன் => த்த்ஏன்
 func SuffixAppended(seq, sfx LetterSeq) LetterSeq { return seq.Appended(sfx) }
 
-// Match and trim specified suffix sequence starting with a Vowel.
+// Attempts to match and trim specified suffix sequence starting with a Vowel.
+//
+// Example: தமிழிலக்கணம் - இலக்கணம் => தமிழ்
 func VSuffixTrimmed(seq, sfx LetterSeq) (LetterSeq, bool) {
 	seqLen, sfxLen := seq.Len(), sfx.Len()
 	if seqLen < sfxLen || seqLen == 0 || sfxLen == 0 {
@@ -127,8 +132,11 @@ func VSuffixTrimmed(seq, sfx LetterSeq) (LetterSeq, bool) {
 	return sb.Build(), true
 }
 
-// Attempts VSuffix concatenation, with CV join.
-// [ ] There is another case: Join CV if possible, or simply concat/append
+// Attempts VSuffix concatenation, with C+V join.
+//
+// The first seq must end with a Consonant, and second seq must start with a Vowel.
+//
+// Example: த்த் + ஏன் => த்தேன்
 func VSuffixAppended(seq, sfx LetterSeq) (LetterSeq, bool) {
 	if seq.Len() == 0 || sfx.Len() == 0 {
 		return LetterSeq{}, false
@@ -145,10 +153,37 @@ func VSuffixAppended(seq, sfx LetterSeq) (LetterSeq, bool) {
 	return sb.Build(), true
 }
 
+// Attempts VSuffix substitution, with CV join.
+//
+// The first seq must end with a CV (vovelized-consonant), and second seq must start with a Vowel.
+//
+// Example: தோன்று + இன் => தோன்றின்
+func VSuffixVSubst(seq, sfx LetterSeq) (LetterSeq, bool) {
+	if seq.Len() == 0 || sfx.Len() == 0 {
+		return LetterSeq{}, false
+	}
+	cv, v := seq.Last(), sfx.First()
+	if !cv.IsCV() || !v.IsV() {
+		return LetterSeq{}, false
+	}
+	c, _ := cv.UnsafeSplitCV()
+
+	sb := NewLetterSeqBuilder(seq.Len() + sfx.Len() - 1)
+	sb.AppendFirstN(seq, seq.Len()-1)
+	sb.AppendLetter(c.UnsafeJoinCV(v))
+	sb.AppendLastN(sfx, sfx.Len()-1)
+	return sb.Build(), true
+}
+
 // -------------------------------------------------------------
 // Misc methods
 // -------------------------------------------------------------
 
+// Returns the syllabified result as slice.
+//
+// Example: விடுதலை => [வி, டு, த, லை]
+//
+// Example 2: தமிழ் => [த, மிழ்]
 func Syllables(seq LetterSeq) []LetterSeq {
 	// Note: Only CV and V both may be followed by 0 or more Cs...
 	var subs []LetterSeq
@@ -165,6 +200,11 @@ func Syllables(seq LetterSeq) []LetterSeq {
 	return append(subs, seq.TakeLastN(seq.Len()-sIdx)) // Capture the syllable we got
 }
 
+// Gives syllabified result as a Unicode string, separated by specified separator.
+//
+// Example: விடுதலை => "வி-டு-த-லை"
+//
+// Example 2: தமிழ் => "த-மிழ்"
 func SyllabifiedUStr(seq LetterSeq, sep string) (string, int) {
 	var sb strings.Builder // Note: Bit more efficient than strings.Join
 	syls := Syllables(seq)
